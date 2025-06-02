@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/mistral")
+MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-3.5-turbo")
 
 def parse_note_with_ai(note_text):
     prompt = (
