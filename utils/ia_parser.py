@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("OPENROUTER_API_KEY")
+print(f"🔑 API_KEY cargada: {API_KEY}")
 MODEL = os.getenv("OPENROUTER_MODEL", "openai/gpt-3.5-turbo")
 
 def parse_note_with_ai(note_text):
@@ -18,8 +19,7 @@ def parse_note_with_ai(note_text):
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://tesmoney.ddnsfree.com",
-        "X-Title": "TesMoney-AI-Agent"
+        "HTTP-Referer": "https://tesmoney.ddnsfree.com"
     }
 
     body = {
