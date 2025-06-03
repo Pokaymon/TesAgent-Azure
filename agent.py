@@ -38,11 +38,11 @@ def get_user_pockets(token):
     response = requests.get(f"{BASE_URL}/pocket", headers=headers)
     return response.json() if response.status_code == 200 else []
 
-def create_transaction(token, pocket_id, amount, description):
+def create_transaction(token, pocket_id, amount, tipo, description):
     headers = {**HEADERS, "Authorization": f"Bearer {token}"}
     data = {
         "pocket_id": pocket_id,
-        "type": "income",
+        "type": tipo,
         "amount": f"{amount:.2f}",
         "description": description
     }
@@ -59,15 +59,15 @@ def process_user(user):
 
     for note in notes:
         print(f"→ Revisando nota: {note['title']}")
-        monto, nombre_pocket = parse_note(note.get("content", ""))
+        monto, nombre_pocket, tipo = parse_note(note.get("content", ""))
         if not monto or not nombre_pocket:
-            monto, nombre_pocket = parse_note_with_ai(note.get("content", ""))
+            monto, nombre_pocket, tipo = parse_note_with_ai(note.get("content", ""))
         print(f"→ Resultado: monto={monto}, pocket={nombre_pocket}")
 
         if monto and nombre_pocket:
             pocket = next((p for p in pockets if p['name'].lower() == nombre_pocket.lower()), None)
             if pocket:
-                create_transaction(token, pocket['id'], monto, description=note['title'])
+                create_transaction(token, pocket['id'], monto, tipo, description=note['title'])
             else:
                 print(f"⚠️ No se encontró pocket '{nombre_pocket}'")
 
